@@ -2,31 +2,78 @@ package kodlamaio.rentACar.business.concretes;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Service;
-import kodlamaio.rentACar.entities.concretes.Brand;
+
 import kodlamaio.rentACar.business.abstracts.BrandService;
+import kodlamaio.rentACar.business.requests.CreateBrandRequest;
+import kodlamaio.rentACar.business.requests.DeleteBrandRequest;
+import kodlamaio.rentACar.business.requests.UpdateBrandsRequest;
+import kodlamaio.rentACar.business.responses.GetAllBrandsResponse;
+import kodlamaio.rentACar.business.responses.GetByIdBrandResponse;
+import kodlamaio.rentACar.business.rules.BrandBusinessRules;
+import kodlamaio.rentACar.core.utilities.mappers.ModelMapperService;
 import kodlamaio.rentACar.dataAccess.abstracts.BrandRepository;
+import kodlamaio.rentACar.entities.concretes.Brand;
+import lombok.AllArgsConstructor;
 
 //bu sinif bir business nesnesidir
 
 @Service
+@AllArgsConstructor
 public class BrandManager implements BrandService {
 
-	private BrandRepository brandRepository; // dependency injection
+	private final BrandRepository brandRepository; // dependency injection
+	private final ModelMapperService mapperService;
+	private final BrandBusinessRules brandBusinessRules;
 
-	// Uygulamayi tara, kim servisleri implement ediyor, onun new'lenmis halini bana
-	// getir. Otomatik
-
-	@Autowired
-	public BrandManager(BrandRepository brandRepository) {
-		this.brandRepository = brandRepository;
+	@Override
+	public void add(CreateBrandRequest createBrandRequest) {
+        // Java dunyasında populer olan mapperlar biraz aşırı reflection'lar
+		// yaptığı için hata olabiliyor. Belli bir noktaya kadar map'i yaptıktansonra
+		// özel bir durum varsa kendimiz manuel set edebiliriz.
+		
+		this.brandBusinessRules.checkIfBrandNameExists(createBrandRequest.getName());
+		Brand brand = this.mapperService.forRequest().map(createBrandRequest, Brand.class);
+		this.brandRepository.save(brand);
 	}
 
 	@Override
-	public List<Brand> getAll() {
+	public void delete(DeleteBrandRequest deleteBrandRequest) {
 
-		return brandRepository.getAll();
+		this.brandBusinessRules.checkIfBrandIdExists(deleteBrandRequest.getId());
+		Brand brand = this.mapperService.forRequest().map(deleteBrandRequest, Brand.class);
+		this.brandRepository.delete(brand);
+	}
+
+	@Override
+	public void update(UpdateBrandsRequest updateBrandsRequest) {
+
+		this.brandBusinessRules.checkIfBrandIdExists(updateBrandsRequest.getId());
+		Brand brand = this.mapperService.forRequest().map(updateBrandsRequest, Brand.class);
+		this.brandRepository.save(brand);
+	}
+
+	@Override
+	public List<GetAllBrandsResponse> getAll() {
+
+		List<Brand> brands = brandRepository.findAll();
+
+		List<GetAllBrandsResponse> allBrandsResponses = brands.stream()
+				.map(brand -> this.mapperService.forResponse().map(brand, GetAllBrandsResponse.class))
+				.collect(Collectors.toList());
+		return allBrandsResponses;
+
+	}
+
+	@Override
+	public GetByIdBrandResponse getByBrandId(int id) {
+
+		Brand brand = this.brandRepository.findById(id).orElseThrow();
+		GetByIdBrandResponse brandResponse = this.mapperService.forResponse().map(brand, GetByIdBrandResponse.class);
+		return brandResponse;
+
 	}
 
 }

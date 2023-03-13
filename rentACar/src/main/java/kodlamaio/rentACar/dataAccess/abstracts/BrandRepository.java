@@ -1,13 +1,15 @@
 package kodlamaio.rentACar.dataAccess.abstracts;
 
-import java.util.List;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import kodlamaio.rentACar.entities.concretes.Brand;
 
-public interface BrandRepository {
+@Repository
+public interface BrandRepository extends JpaRepository<Brand,Integer> {
 
 //repository - veritabani islemlerini yapacak siniflara verilen isimdir. Örnek: ....Dao, ...Repository
 
-	List<Brand> getAll();
+   boolean existsByNameIgnoreCase(String name);
 
 }
