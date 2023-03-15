@@ -21,7 +21,6 @@ public class ModelBusinessRules {
 	}
 
 	
-	
 	public void checkIfModelIdExists(int id) {
 
 		if (!this.modelRepository.existsById(id)) {
