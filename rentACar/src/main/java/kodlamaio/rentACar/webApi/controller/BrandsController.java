@@ -23,49 +23,41 @@ import kodlamaio.rentACar.business.responses.GetAllBrandsResponse;
 import kodlamaio.rentACar.business.responses.GetByIdBrandResponse;
 import lombok.AllArgsConstructor;
 
-@RestController // Annotation  bu sinif bir controller nesnesidir
+@RestController 
 @RequestMapping("api/brands")
 @AllArgsConstructor
 public class BrandsController {
 
 	private BrandService brandService;
 
-	
+	@PostMapping("/add")
+	@ResponseStatus(code = HttpStatus.CREATED) 
+	public void add(@RequestBody @Valid CreateBrandRequest brandRequest) {
+		this.brandService.addBrand(brandRequest);
+	}
+
+	@DeleteMapping("/delete")
+	@ResponseStatus(code = HttpStatus.OK)
+	public void delete(@RequestBody @Valid DeleteBrandRequest deleteBrandRequest) {
+
+		this.brandService.deleteBrand(deleteBrandRequest);
+
+	}
+
+	@PutMapping("/update")
+	@ResponseStatus(code = HttpStatus.OK)
+	public void update(@RequestBody @Valid UpdateBrandsRequest brandsRequest) {
+		this.brandService.updateBrand(brandsRequest);
+	}
+
 	@GetMapping()
-	public List<GetAllBrandsResponse> getAll(){
+	public List<GetAllBrandsResponse> getAll() {
 		return brandService.getAll();
 	}
-	
+
 	@GetMapping("/{id}")
 	public GetByIdBrandResponse getByModelId(@PathVariable int id) {
 		return brandService.getByBrandId(id);
 	}
-	
-	 @PostMapping("/add")
-	 @ResponseStatus(code=HttpStatus.CREATED) //201 (200 - Başarılı/Tamam. 201 - Oluşturuldu. 202 - Kabul edildi/Onaylandı)
-	 public void add(@Valid() @RequestBody CreateBrandRequest brandRequest) {
-		 this.brandService.add(brandRequest);
-	 }
 
-	 
-	 @PutMapping("/update")
-	 @ResponseStatus(code = HttpStatus.OK)
-	 public void update(@Valid() @RequestBody UpdateBrandsRequest brandsRequest) {
-		 this.brandService.update(brandsRequest);
-	 }
-	 
-	 @DeleteMapping("/delete")
-	 @ResponseStatus(code=HttpStatus.OK)
-	 public void delete(@Valid() @RequestBody DeleteBrandRequest deleteBrandRequest) {
-		
-		 this.brandService.delete(deleteBrandRequest);
-		 
-	 }
-	 
-	 
-	 
-	 
-	 
-	 
-	 
 }

@@ -2,6 +2,7 @@ package kodlamaio.rentACar.business.concretes;
 
 import java.util.List;
 
+
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -18,8 +19,6 @@ import kodlamaio.rentACar.dataAccess.abstracts.BrandRepository;
 import kodlamaio.rentACar.entities.concretes.Brand;
 import lombok.AllArgsConstructor;
 
-//bu sinif bir business nesnesidir
-
 @Service
 @AllArgsConstructor
 public class BrandManager implements BrandService {
@@ -28,19 +27,20 @@ public class BrandManager implements BrandService {
 	private final ModelMapperService mapperService;
 	private final BrandBusinessRules brandBusinessRules;
 
+	
+	/* Java dunyasında populer olan mapperlar biraz aşırı reflection'lar
+	 yaptığı için hata olabiliyor. Belli bir noktaya kadar map'i yaptıktansonra
+	 özel bir durum varsa kendimiz manuel set edebiliriz. */
 	@Override
-	public void add(CreateBrandRequest createBrandRequest) {
-        // Java dunyasında populer olan mapperlar biraz aşırı reflection'lar
-		// yaptığı için hata olabiliyor. Belli bir noktaya kadar map'i yaptıktansonra
-		// özel bir durum varsa kendimiz manuel set edebiliriz.
-		
+	public void addBrand(CreateBrandRequest createBrandRequest) {
+       
 		this.brandBusinessRules.checkIfBrandNameExists(createBrandRequest.getName());
 		Brand brand = this.mapperService.forRequest().map(createBrandRequest, Brand.class);
 		this.brandRepository.save(brand);
 	}
 
 	@Override
-	public void delete(DeleteBrandRequest deleteBrandRequest) {
+	public void deleteBrand(DeleteBrandRequest deleteBrandRequest) {
 
 		this.brandBusinessRules.checkIfBrandIdExists(deleteBrandRequest.getId());
 		Brand brand = this.mapperService.forRequest().map(deleteBrandRequest, Brand.class);
@@ -48,7 +48,7 @@ public class BrandManager implements BrandService {
 	}
 
 	@Override
-	public void update(UpdateBrandsRequest updateBrandsRequest) {
+	public void updateBrand(UpdateBrandsRequest updateBrandsRequest) {
 
 		this.brandBusinessRules.checkIfBrandIdExists(updateBrandsRequest.getId());
 		Brand brand = this.mapperService.forRequest().map(updateBrandsRequest, Brand.class);
@@ -75,5 +75,7 @@ public class BrandManager implements BrandService {
 		return brandResponse;
 
 	}
+
+
 
 }

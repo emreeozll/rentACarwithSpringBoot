@@ -12,9 +12,9 @@ public class BrandBusinessRules {
 
 	private final BrandRepository brandRepository;
 
-	//Çalışma anındaki bütün hatalar business'ta olamayacağı için
-	//kendi business hatalarımızı oluşturmamız gerekli
-	// Bunun bir business ahtası olduğunu anlatmamız lazım. Kendi sınıfımızı oluşturuyoruz.
+	/*Çalışma anındaki bütün hatalar business'ta olamayacağı için
+	kendi business hatalarımızı oluşturmamız gerekli
+	Bunun bir business ahtası olduğunu anlatmamız lazım. Kendi sınıfımızı oluşturuyoruz. */
 	
 	public void checkIfBrandNameExists(String Name) {
 

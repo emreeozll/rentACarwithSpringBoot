@@ -10,10 +10,14 @@ import kodlamaio.rentACar.business.responses.GetByIdBrandResponse;
 
 public interface BrandService {
 
+	public void addBrand(CreateBrandRequest createBrandRequest);
+
+	public void deleteBrand(DeleteBrandRequest deleteBrandRequest);
+
+	public void updateBrand(UpdateBrandsRequest updateBrandsRequest);
+
 	List<GetAllBrandsResponse> getAll();
-	void add(CreateBrandRequest createBrandRequest);
-	void delete(DeleteBrandRequest deleteBrandRequest);
-	void update(UpdateBrandsRequest updateBrandsRequest);
+
 	GetByIdBrandResponse getByBrandId(int id);
-	
+
 }

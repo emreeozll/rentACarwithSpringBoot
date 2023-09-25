@@ -25,6 +25,11 @@ public class RentACarApplication {
 		SpringApplication.run(RentACarApplication.class, args);
 	}
 
+	@Bean
+	public ModelMapper getModelMapper() {
+		return new ModelMapper();
+	}
+
 	@ExceptionHandler
 	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
 	public ProblemDetails handleBusinessException(BusinessException businessException) {
@@ -34,12 +39,7 @@ public class RentACarApplication {
 		return problemDetails;
 	}
 
-	// Tüm hatalar için yapamayız çunku dipsiz bir kuyu
-	// Belirli field'da hata bilgilerini vermemiz en uygunu
-	// Kullanıcıyı dogru yonlendırmek istiyoruz fakat bunların sonu
-	// Bunların en iyi yanı aop teknikleri ile her hatayı loglayabiliriz
-	// Sadece message kısmını yazarsak front-end'ci gelen datayı yerleştiremez.
-
+	
 	@ExceptionHandler
 	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
 	public ProblemDetails handleValidationException(BindException bindException) {
@@ -55,8 +55,10 @@ public class RentACarApplication {
 		return validationProblemDetails;
 	}
 
-	@Bean
-	public ModelMapper getModelMapper() {
-		return new ModelMapper();
-	}
+	
+	    // Tüm hatalar için yapamayız çunku dipsiz bir kuyu
+		// Belirli field'da hata bilgilerini vermemiz en uygunu
+		// Kullanıcıyı dogru yonlendırmek istiyoruz fakat bunların sonu
+		// Bunların en iyi yanı aop teknikleri ile her hatayı loglayabiliriz
+		// Sadece message kısmını yazarsak front-end'ci gelen datayı yerleştiremez.
 }

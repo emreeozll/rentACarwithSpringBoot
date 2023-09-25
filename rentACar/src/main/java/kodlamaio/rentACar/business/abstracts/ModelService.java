@@ -10,14 +10,14 @@ import kodlamaio.rentACar.business.responses.GetByIdModelResponse;
 
 public interface ModelService {
 
-	void add(CreateModelRequest createModelRequest);
+	public void addModel(CreateModelRequest createModelRequest);
 
-	void delete(DeleteModelRequest deleteModelRequest);
+	public void deleteModel(DeleteModelRequest deleteModelRequest);
 
-	void update(UpdateModelRequest updateModelRequest);
+	public void updateModel(UpdateModelRequest updateModelRequest);
 
-	List<GetAllModelsResponse> getAll();
+	public List<GetAllModelsResponse> getAll();
 
-	GetByIdModelResponse getByModelId(int id);
+	public GetByIdModelResponse getByModelId(int id);
 
 }

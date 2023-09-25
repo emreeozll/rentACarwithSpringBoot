@@ -3,11 +3,10 @@ package kodlamaio.rentACar.dataAccess.abstracts;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import kodlamaio.rentACar.entities.concretes.Brand;
+import kodlamaio.rentACar.entities.concretes.Car;
 
 @Repository
-public interface BrandRepository extends JpaRepository<Brand,Integer> {
+public interface CarRepository extends JpaRepository<Car, Integer> {
 
-   boolean existsByNameIgnoreCase(String name);
-
+	boolean existsByPlateIgnoreCase(String Plate);
 }

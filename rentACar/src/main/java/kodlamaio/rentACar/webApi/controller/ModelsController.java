@@ -31,21 +31,21 @@ public class ModelsController {
 
 
 	@PostMapping
-	@ResponseStatus(code = HttpStatus.CREATED)
+	@ResponseStatus(code = HttpStatus.CREATED)//201
 	public void add(@Valid() CreateModelRequest createModelRequest) {
-		this.modelService.add(createModelRequest);
+		this.modelService.addModel(createModelRequest);
 	}
 	
 	@DeleteMapping
-	@ResponseStatus(code = HttpStatus.OK)
+	@ResponseStatus(code = HttpStatus.OK)//200
 	public void delete(@Valid() DeleteModelRequest deleteModelRequest) {
-	   this.modelService.delete(deleteModelRequest);	
+	   this.modelService.deleteModel(deleteModelRequest);	
 	}
 	
 	@PutMapping
 	@ResponseStatus(code = HttpStatus.OK)
 	public void update(@Valid() UpdateModelRequest updateModelRequest) {
-		this.modelService.update(updateModelRequest);
+		this.modelService.updateModel(updateModelRequest);
 	}
 	
 	@GetMapping
